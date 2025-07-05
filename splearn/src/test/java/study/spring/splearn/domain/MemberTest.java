@@ -22,7 +22,7 @@ class MemberTest {
         return encode(password).equals(passwordHash);
       }
     };
-    member = Member.create("test@test.com", "shin", "secret", passwordEncoder);
+    member = Member.create(new MemberCreateRequest("test@test.com", "shin", "secret"), passwordEncoder);
   }
 
   @Test
@@ -90,5 +90,24 @@ class MemberTest {
     assertThat(passwordEncoder.matches("verysecret", member.getPasswordHash())).isTrue();
   }
 
+  @Test
+  void isActive() {
+    assertThat(member.isActive()).isFalse();
+
+    member.activate();
+
+    assertThat(member.isActive()).isTrue();
+
+    member.deactivate();
+
+    assertThat(member.isActive()).isFalse();
+  }
+
+  @Test
+  void invalidEmail() {
+    assertThatThrownBy(() ->
+        Member.create(new MemberCreateRequest("invalid email", "shin", "secret"), passwordEncoder)
+    ).isInstanceOf(IllegalArgumentException.class);
+  }
 
 }
