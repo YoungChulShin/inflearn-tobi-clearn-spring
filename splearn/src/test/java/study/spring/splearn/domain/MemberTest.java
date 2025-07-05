@@ -22,11 +22,11 @@ class MemberTest {
         return encode(password).equals(passwordHash);
       }
     };
-    member = Member.create(new MemberCreateRequest("test@test.com", "shin", "secret"), passwordEncoder);
+    member = Member.register(new MemberRegisterRequest("test@test.com", "shin", "secret"), passwordEncoder);
   }
 
   @Test
-  void createMember() {
+  void registerMember() {
     assertThat(member.getStatus()).isEqualTo(MemberStatus.PENDING);
   }
 
@@ -106,7 +106,7 @@ class MemberTest {
   @Test
   void invalidEmail() {
     assertThatThrownBy(() ->
-        Member.create(new MemberCreateRequest("invalid email", "shin", "secret"), passwordEncoder)
+        Member.register(new MemberRegisterRequest("invalid email", "shin", "secret"), passwordEncoder)
     ).isInstanceOf(IllegalArgumentException.class);
   }
 
