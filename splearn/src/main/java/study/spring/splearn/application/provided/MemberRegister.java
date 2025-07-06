@@ -1,5 +1,6 @@
 package study.spring.splearn.application.provided;
 
+import jakarta.validation.Valid;
 import study.spring.splearn.domain.Member;
 import study.spring.splearn.domain.MemberRegisterRequest;
 
@@ -8,6 +9,6 @@ import study.spring.splearn.domain.MemberRegisterRequest;
  */
 public interface MemberRegister {
 
-  Member register(MemberRegisterRequest registerRequest);
+  Member register(@Valid MemberRegisterRequest registerRequest);
 
 }
