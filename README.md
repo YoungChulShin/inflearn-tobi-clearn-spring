@@ -133,3 +133,24 @@
 Hibernate - @NaturalId, @NaturalIdCache
 - hibernate에서 자연키로 사용할 필드를 지정한다. 
 - @NaturalIdCache 를 추가하면 조회 시 2차 캐시를 사용해서 성능을 개선할 수 있다. 
+
+테스트
+- interface를 테스트 해야한다.
+    - 예를 들어서 MemberService가 MemberRegister를 구현한다면, MemberRegister 인터페이스를 테스트 해야 한다. 
+- java17 이상부터는 record로 테스트를 할 수 있다. 
+- 테스트용 빈이 필요할 경우 `@TestConfiguration` 애노테이션을 이용해서 테스트 설정 클래스를 넣어줄 수 있다. 
+   ```java
+    @TestConfiguration
+    public class SplearnTestConfiguration {
+
+        @Bean
+        public EmailSender emailSender() {
+            return (email, subject, body) -> System.out.println("sending email: " + email);
+        }
+
+        @Bean
+        public PasswordEncoder passwordEncoder() {
+            return MemberFixture.createPasswordEncoder();
+        }
+    }
+   ```
