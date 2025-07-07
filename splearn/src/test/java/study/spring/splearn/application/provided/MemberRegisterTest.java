@@ -1,7 +1,9 @@
 package study.spring.splearn.application.provided;
 
+import jakarta.persistence.EntityManager;
 import jakarta.validation.ConstraintViolationException;
 import org.assertj.core.api.Assertions;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +21,9 @@ import study.spring.splearn.domain.MemberStatus;
 @Transactional
 @Import(SplearnTestConfiguration.class)
 //@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
-public record MemberRegisterTest(MemberRegister memberRegister) {
+public record MemberRegisterTest(
+    MemberRegister memberRegister,
+    EntityManager entityManager) {
 
   @Test
   void register() {
@@ -33,8 +37,20 @@ public record MemberRegisterTest(MemberRegister memberRegister) {
   void duplicateEmailFail() {
     Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
 
-    Assertions.assertThatThrownBy(() -> memberRegister.register(MemberFixture.createMemberRegisterRequest()))
+    assertThatThrownBy(() -> memberRegister.register(MemberFixture.createMemberRegisterRequest()))
             .isInstanceOf(DuplicateEmailException.class);
+  }
+
+  @Test
+  void activate() {
+    Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
+    entityManager.flush();
+    entityManager.clear();
+
+    member = memberRegister.activate(member.getId());
+    entityManager.flush();
+
+    assertThat(member.getStatus()).isEqualTo(MemberStatus.ACTIVE);
   }
 
   @Test
@@ -45,7 +61,7 @@ public record MemberRegisterTest(MemberRegister memberRegister) {
   }
 
   private void invalidRequest(MemberRegisterRequest invalid) {
-    Assertions.assertThatThrownBy(() -> memberRegister.register(invalid))
+    assertThatThrownBy(() -> memberRegister.register(invalid))
       .isInstanceOf(ConstraintViolationException.class);
   }
 

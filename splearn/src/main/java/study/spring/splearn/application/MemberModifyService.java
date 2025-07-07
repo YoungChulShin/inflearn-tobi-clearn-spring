@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
+import study.spring.splearn.application.provided.MemberFinder;
 import study.spring.splearn.application.provided.MemberRegister;
 import study.spring.splearn.application.required.EmailSender;
 import study.spring.splearn.application.required.MemberRepository;
@@ -17,8 +18,9 @@ import study.spring.splearn.domain.PasswordEncoder;
 @Transactional
 @Validated
 @RequiredArgsConstructor
-public class MemberService implements MemberRegister {
+public class MemberModifyService implements MemberRegister {
 
+  private final MemberFinder memberFinder;
   private final MemberRepository memberRepository;
   private final EmailSender emailSender;
   private final PasswordEncoder passwordEncoder;
@@ -34,6 +36,15 @@ public class MemberService implements MemberRegister {
     sendWelcomeEmail(member);
 
     return member;
+  }
+
+  @Override
+  public Member activate(Long memberId) {
+    Member member = memberFinder.find(memberId);
+
+    member.activate();
+
+    return memberRepository.save(member);
   }
 
   private void checkDuplicateEmail(MemberRegisterRequest registerRequest) {
