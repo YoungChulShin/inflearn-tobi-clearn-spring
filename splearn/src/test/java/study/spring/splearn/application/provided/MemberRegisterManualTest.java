@@ -2,9 +2,6 @@ package study.spring.splearn.application.provided;
 
 import java.util.ArrayList;
 import java.util.List;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import study.spring.splearn.application.required.EmailSender;
 import study.spring.splearn.domain.Email;
 

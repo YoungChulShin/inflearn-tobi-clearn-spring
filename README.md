@@ -154,3 +154,20 @@ Hibernate - @NaturalId, @NaturalIdCache
         }
     }
    ```
+- console out에 대한 테스트
+   ```java
+   // gradle
+   testImplementation("org.junit-pioneer:junit-pioneer:2.3.0")
+
+   // 사용 코드
+   @Test
+   @StdIo   // 1. 애노테이션 정의
+   void dummyEmailSender(StdOut out) {  // 2. out은 테스트 중에 발생한 출력 정보를 가지고 있다. 
+        DummyEmailSender dummyEmailSender = new DummyEmailSender();
+
+        dummyEmailSender.send(new Email("test@test.com"), "subject", "body");
+
+        assertThat(out.capturedLines()[0])
+        .isEqualTo("DummyEmailSender: send mail: Email[address=test@test.com]");
+   }
+   ```

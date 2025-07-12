@@ -3,7 +3,6 @@ package study.spring.splearn.application.provided;
 import jakarta.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
