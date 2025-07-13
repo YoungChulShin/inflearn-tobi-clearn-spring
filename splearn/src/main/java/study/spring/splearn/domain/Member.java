@@ -1,33 +1,20 @@
 package study.spring.splearn.domain;
 
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import static java.util.Objects.requireNonNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.NaturalId;
-import org.hibernate.annotations.NaturalIdCache;
 import static org.springframework.util.Assert.state;
 
 @Entity
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@NaturalIdCache
-public class Member {
+public class Member extends AbstractEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-
-  @Embedded
   @NaturalId
   private Email email;
 
@@ -35,7 +22,6 @@ public class Member {
 
   private String passwordHash;
 
-  @Enumerated(EnumType.STRING)
   private MemberStatus status;
 
   public static Member register(MemberRegisterRequest registerRequest, PasswordEncoder passwordEncoder) {
