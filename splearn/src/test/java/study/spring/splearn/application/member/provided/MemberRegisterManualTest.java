@@ -1,9 +1,9 @@
-package study.spring.splearn.application.provided;
+package study.spring.splearn.application.member.provided;
 
 import java.util.ArrayList;
 import java.util.List;
-import study.spring.splearn.application.required.EmailSender;
-import study.spring.splearn.domain.Email;
+import study.spring.splearn.application.member.required.EmailSender;
+import study.spring.splearn.domain.shared.Email;
 
 class MemberRegisterManualTest {
 

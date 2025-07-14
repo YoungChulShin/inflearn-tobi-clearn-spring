@@ -1,15 +1,17 @@
-package study.spring.splearn.application.required;
+package study.spring.splearn.application.member.required;
 
 import jakarta.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
-import study.spring.splearn.domain.Member;
-import static study.spring.splearn.domain.MemberFixture.createMemberRegisterRequest;
-import static study.spring.splearn.domain.MemberFixture.createPasswordEncoder;
+import study.spring.splearn.domain.member.Member;
+import static study.spring.splearn.domain.member.MemberFixture.createMemberRegisterRequest;
+import static study.spring.splearn.domain.member.MemberFixture.createPasswordEncoder;
+import study.spring.splearn.domain.member.MemberStatus;
 
 @DataJpaTest
 class MemberRepositoryTest {
@@ -31,6 +33,11 @@ class MemberRepositoryTest {
     assertThat(member.getId()).isNotNull();
 
     entityManager.flush();
+    entityManager.clear();
+
+    var found = memberRepository.findById(member.getId()).orElseThrow();
+    assertThat(found.getStatus()).isEqualTo(MemberStatus.PENDING);
+    assertThat(found.getDetail().getRegisteredAt()).isNotNull();
   }
 
   @Test
@@ -39,7 +46,7 @@ class MemberRepositoryTest {
     memberRepository.save(member);
 
     Member member2 = Member.register(createMemberRegisterRequest(), createPasswordEncoder());
-    Assertions.assertThatThrownBy(() -> memberRepository.save(member2))
+    assertThatThrownBy(() -> memberRepository.save(member2))
         .isInstanceOf(DataIntegrityViolationException.class);
   }
 }

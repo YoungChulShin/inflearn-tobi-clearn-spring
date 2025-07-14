@@ -1,11 +1,11 @@
-package study.spring.splearn.domain;
+package study.spring.splearn.domain.member;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static study.spring.splearn.domain.MemberFixture.createMemberRegisterRequest;
-import static study.spring.splearn.domain.MemberFixture.createPasswordEncoder;
+import static study.spring.splearn.domain.member.MemberFixture.createMemberRegisterRequest;
+import static study.spring.splearn.domain.member.MemberFixture.createPasswordEncoder;
 
 class MemberTest {
 
@@ -21,6 +21,7 @@ class MemberTest {
   @Test
   void registerMember() {
     assertThat(member.getStatus()).isEqualTo(MemberStatus.PENDING);
+    assertThat(member.getDetail().getRegisteredAt()).isNotNull();
   }
 
   @Test
@@ -28,6 +29,7 @@ class MemberTest {
     member.activate();
 
     assertThat(member.getStatus()).isEqualTo(MemberStatus.ACTIVE);
+    assertThat(member.getDetail().getActivatedAt()).isNotNull();
   }
 
   @Test
@@ -46,6 +48,7 @@ class MemberTest {
     member.deactivate();
 
     assertThat(member.getStatus()).isEqualTo(MemberStatus.DEACTIVATED);
+    assertThat(member.getDetail().getDeactivatedAt()).isNotNull();
   }
 
   @Test
@@ -67,6 +70,7 @@ class MemberTest {
     assertThat(member.verifyPassword("longsecret", passwordEncoder)).isTrue();
     assertThat(member.verifyPassword("hello", passwordEncoder)).isFalse();
   }
+
   @Test
   void changeNickname() {
     assertThat(member.getNickname()).isEqualTo("shinyoungchul");

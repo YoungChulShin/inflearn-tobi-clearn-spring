@@ -1,4 +1,4 @@
-package study.spring.splearn.domain;
+package study.spring.splearn.domain.member;
 
 public class MemberFixture {
 

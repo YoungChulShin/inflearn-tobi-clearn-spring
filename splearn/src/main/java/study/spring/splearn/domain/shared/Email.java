@@ -1,4 +1,4 @@
-package study.spring.splearn.domain;
+package study.spring.splearn.domain.shared;
 
 import java.util.regex.Pattern;
 

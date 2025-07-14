@@ -1,4 +1,4 @@
-package study.spring.splearn.application.provided;
+package study.spring.splearn.application.member.provided;
 
 import jakarta.persistence.EntityManager;
 import jakarta.validation.ConstraintViolationException;
@@ -9,11 +9,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 import study.spring.splearn.SplearnTestConfiguration;
-import study.spring.splearn.domain.DuplicateEmailException;
-import study.spring.splearn.domain.Member;
-import study.spring.splearn.domain.MemberFixture;
-import study.spring.splearn.domain.MemberRegisterRequest;
-import study.spring.splearn.domain.MemberStatus;
+import study.spring.splearn.domain.member.DuplicateEmailException;
+import study.spring.splearn.domain.member.Member;
+import study.spring.splearn.domain.member.MemberFixture;
+import study.spring.splearn.domain.member.MemberRegisterRequest;
+import study.spring.splearn.domain.member.MemberStatus;
 
 @SpringBootTest
 @Transactional

@@ -1,4 +1,4 @@
-package study.spring.splearn.domain;
+package study.spring.splearn.domain.shared;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;

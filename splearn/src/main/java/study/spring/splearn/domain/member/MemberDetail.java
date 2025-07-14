@@ -1,0 +1,47 @@
+package study.spring.splearn.domain.member;
+
+import jakarta.persistence.Entity;
+import java.time.LocalDateTime;
+import static java.util.Objects.requireNonNull;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.springframework.util.Assert;
+import static org.springframework.util.Assert.state;
+import study.spring.splearn.domain.AbstractEntity;
+
+@Entity
+@Getter
+@ToString(callSuper = true)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class MemberDetail extends AbstractEntity {
+
+  private String profile;
+
+  private String introduction;
+
+  private LocalDateTime registeredAt;
+
+  private LocalDateTime activatedAt;
+
+  private LocalDateTime deactivatedAt;
+
+  static MemberDetail create() {
+    MemberDetail memberDetail = new MemberDetail();
+    memberDetail.registeredAt = LocalDateTime.now();
+    return memberDetail;
+  }
+
+  void activate() {
+    Assert.isTrue(activatedAt == null, "이미 activatedAt은 설정 되었습니다.");
+
+    this.activatedAt = LocalDateTime.now();
+  }
+
+  void deactivate() {
+    Assert.isTrue(deactivatedAt == null, "이미 activatedAt은 설정 되었습니다.");
+
+    this.deactivatedAt = LocalDateTime.now();
+  }
+}

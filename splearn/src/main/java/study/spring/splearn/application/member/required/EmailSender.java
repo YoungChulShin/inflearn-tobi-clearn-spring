@@ -1,6 +1,6 @@
-package study.spring.splearn.application.required;
+package study.spring.splearn.application.member.required;
 
-import study.spring.splearn.domain.Email;
+import study.spring.splearn.domain.shared.Email;
 
 /**
  * 이메일을 발송한다.
