@@ -1,7 +1,9 @@
 package study.spring.splearn.domain.member;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import static java.util.Objects.requireNonNull;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -17,7 +19,8 @@ import study.spring.splearn.domain.AbstractEntity;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberDetail extends AbstractEntity {
 
-  private String profile;
+  @Embedded
+  private Profile profile;
 
   private String introduction;
 
@@ -43,5 +46,10 @@ public class MemberDetail extends AbstractEntity {
     Assert.isTrue(deactivatedAt == null, "이미 activatedAt은 설정 되었습니다.");
 
     this.deactivatedAt = LocalDateTime.now();
+  }
+
+  void updateInfo(MemberInfoUpdateRequest updateRequest) {
+    this.profile = new Profile(updateRequest.profileAddress());
+    this.introduction = Objects.requireNonNull(updateRequest.introduction());
   }
 }

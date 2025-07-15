@@ -1,5 +1,6 @@
 package study.spring.splearn.domain.member;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.BeforeEach;
@@ -105,5 +106,17 @@ class MemberTest {
     assertThatThrownBy(() ->
         Member.register(createMemberRegisterRequest("invalid email"), passwordEncoder)
     ).isInstanceOf(IllegalArgumentException.class);
+  }
+
+  @Test
+  void updateInfo() {
+    member.activate();
+
+    var request = new MemberInfoUpdateRequest("shinyoungchul2", "profile2", "introduction2");
+    member.updateInfo(request);
+
+    assertThat(member.getNickname()).isEqualTo(request.nickname());
+    assertThat(member.getDetail().getProfile().address()).isEqualTo(request.profileAddress());
+    assertThat(member.getDetail().getIntroduction()).isEqualTo(request.introduction());
   }
 }

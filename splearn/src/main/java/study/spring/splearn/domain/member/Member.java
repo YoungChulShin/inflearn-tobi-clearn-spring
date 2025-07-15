@@ -4,6 +4,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToOne;
+import java.util.Objects;
 import static java.util.Objects.requireNonNull;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -72,9 +73,13 @@ public class Member extends AbstractEntity {
     this.passwordHash = passwordEncoder.encode(requireNonNull(password));
   }
 
+  public void updateInfo(MemberInfoUpdateRequest updateRequest) {
+    this.nickname = Objects.requireNonNull(updateRequest.nickname());
+
+    this.detail.updateInfo(updateRequest);
+  }
+
   public boolean isActive() {
     return this.status == MemberStatus.ACTIVE;
   }
-
-  // 21:33
 }
