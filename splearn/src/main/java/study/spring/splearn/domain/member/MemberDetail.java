@@ -1,17 +1,15 @@
 package study.spring.splearn.domain.member;
 
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import java.time.LocalDateTime;
-import java.util.Objects;
-import static java.util.Objects.requireNonNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.util.Assert;
-import static org.springframework.util.Assert.state;
 import study.spring.splearn.domain.AbstractEntity;
+
+import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -19,7 +17,6 @@ import study.spring.splearn.domain.AbstractEntity;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberDetail extends AbstractEntity {
 
-  @Embedded
   private Profile profile;
 
   private String introduction;
