@@ -8,11 +8,8 @@ import study.spring.splearn.application.member.provided.MemberFinder;
 import study.spring.splearn.application.member.provided.MemberRegister;
 import study.spring.splearn.application.member.required.EmailSender;
 import study.spring.splearn.application.member.required.MemberRepository;
-import study.spring.splearn.domain.member.DuplicateEmailException;
+import study.spring.splearn.domain.member.*;
 import study.spring.splearn.domain.shared.Email;
-import study.spring.splearn.domain.member.Member;
-import study.spring.splearn.domain.member.MemberRegisterRequest;
-import study.spring.splearn.domain.member.PasswordEncoder;
 
 @Service
 @Transactional
@@ -43,6 +40,24 @@ public class MemberModifyService implements MemberRegister {
     Member member = memberFinder.find(memberId);
 
     member.activate();
+
+    return memberRepository.save(member);
+  }
+
+  @Override
+  public Member deactivate(Long memberId) {
+    Member member = memberFinder.find(memberId);
+
+    member.deactivate();
+
+    return memberRepository.save(member);
+  }
+
+  @Override
+  public Member updateInfo(Long memberId, MemberInfoUpdateRequest memberInfoUpdateRequest) {
+    Member member = memberFinder.find(memberId);
+
+    member.updateInfo(memberInfoUpdateRequest);
 
     return memberRepository.save(member);
   }
