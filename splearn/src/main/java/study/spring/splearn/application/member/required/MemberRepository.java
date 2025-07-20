@@ -1,7 +1,11 @@
 package study.spring.splearn.application.member.required;
 
 import java.util.Optional;
+
+import com.fasterxml.jackson.databind.introspect.AnnotationCollector;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
+import study.spring.splearn.domain.member.Profile;
 import study.spring.splearn.domain.shared.Email;
 import study.spring.splearn.domain.member.Member;
 
@@ -15,4 +19,8 @@ public interface MemberRepository extends Repository<Member, Long> {
   Optional<Member> findByEmail(Email email);
 
   Optional<Member> findById(Long memberId);
+
+  @Query("select m from Member m where m.detail.profile = :profile")
+  Optional<Member> findByProfile(Profile profile);
+
 }

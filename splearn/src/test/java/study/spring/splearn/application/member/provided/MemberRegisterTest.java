@@ -53,6 +53,13 @@ record MemberRegisterTest(
     return member;
   }
 
+  private Member registerMember(String email) {
+    Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest(email));
+    entityManager.flush();
+    entityManager.clear();
+    return member;
+  }
+
   @Test
   void deactivate() {
     Member member = registerMember();
@@ -78,6 +85,23 @@ record MemberRegisterTest(
     member = memberRegister.updateInfo(member.getId(), new MemberInfoUpdateRequest("shintest2", "test2", "hello2"));
 
     assertThat(member.getDetail().getProfile().address()).isEqualTo("test2");
+  }
+
+  @Test
+  void updateInfoFail() {
+    Member member = registerMember();
+    memberRegister.activate(member.getId());
+    member = memberRegister.updateInfo(member.getId(), new MemberInfoUpdateRequest("shintest2", "test2", "hello2"));
+
+
+    Member member2 = registerMember("shintest2@test.com");
+    member2.activate();
+    entityManager.flush();
+    entityManager.clear();
+
+    assertThatThrownBy(() -> {
+      memberRegister.updateInfo(member2.getId(), new MemberInfoUpdateRequest("shintest3", "test2", "hello3"));
+    }).isInstanceOf(DuplicateProfileException.class);
   }
 
   @Test

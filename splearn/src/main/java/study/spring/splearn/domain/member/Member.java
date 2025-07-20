@@ -1,19 +1,19 @@
 package study.spring.splearn.domain.member;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToOne;
-import java.util.Objects;
-import static java.util.Objects.requireNonNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.NaturalId;
-import static org.springframework.util.Assert.state;
+import org.springframework.util.Assert;
 import study.spring.splearn.domain.AbstractEntity;
 import study.spring.splearn.domain.shared.Email;
+
+import java.util.Objects;
+
+import static java.util.Objects.requireNonNull;
+import static org.springframework.util.Assert.state;
 
 @Entity
 @Getter
@@ -64,15 +64,12 @@ public class Member extends AbstractEntity {
     return passwordEncoder.matches(password, passwordHash);
   }
 
-  public void changeNickname(String nickname) {
-    this.nickname = requireNonNull(nickname);
-  }
-
   public void changePassword(String password, PasswordEncoder passwordEncoder) {
     this.passwordHash = passwordEncoder.encode(requireNonNull(password));
   }
 
   public void updateInfo(MemberInfoUpdateRequest updateRequest) {
+    Assert.state(getStatus() == MemberStatus.ACTIVE, "등록 완료 상태가 아니면 정보를 수정할 수 없습니다");
     this.nickname = Objects.requireNonNull(updateRequest.nickname());
 
     this.detail.updateInfo(updateRequest);
